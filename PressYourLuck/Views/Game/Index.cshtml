@@ -1,0 +1,39 @@
+﻿@using PressYourLuck.Helpers;
+
+@model List<Tile>
+
+<div class="text-left font-weight-bold">
+    Current Bet: @CoinsHelper.GetCurrentBet(Context).ToString("c2")
+    <a asp-controller="Game" asp-action="@ViewBag.Action" class="btn @ViewBag.Color float-right ">@ViewBag.Button</a>
+</div>
+<br />
+
+<div class="row">
+    @foreach (var tile in Model)
+    {
+        <div class="card col-2">
+            @if (tile.Visible == false)
+            {
+                <img src="~/images/unknown.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <a asp-controller="Game" asp-action="Reveal" asp-route-id="@tile.TileIndex" class="btn btn-primary">CHOOSE</a>
+                </div>
+            }
+            else if (tile.Value == "0.00")
+            {
+                <img src="~/images/bust.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <div>@tile.Value</div>
+                </div>
+            }
+            else
+            {
+                <img src="~/images/money.png" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <div>@tile.Value</div>
+                </div>
+            }
+        </div>
+    }
+</div>
+

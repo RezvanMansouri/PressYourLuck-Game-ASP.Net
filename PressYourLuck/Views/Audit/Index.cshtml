@@ -1,0 +1,42 @@
+﻿@using AS3_RM5831.Models
+@{
+    string action =
+        ViewContext.RouteData.Values["action"].ToString();
+}
+
+@model List<Audit>
+@{
+    ViewBag.Title = "Audit Records";
+}
+
+<nav class="nav nav-tabs">
+
+    <a class="nav-item nav-link @(action == "Index" ? "active" : "")" asp-controller="Audit" asp-action="Index">All</a>
+    <a class="nav-item nav-link @(action == "CashIn" ? "active" : "")" asp-controller="Audit" asp-action="CashIn">Cash In</a>
+    <a class="nav-item nav-link @(action == "CashOut" ? "active" : "")" asp-controller="Audit" asp-action="CashOut">Cash Out</a>
+    <a class="nav-item nav-link @(action == "Lose" ? "active" : "")" asp-controller="Audit" asp-action="Lose">Lose</a>
+    <a class="nav-item nav-link @(action == "Win" ? "active" : "")" asp-controller="Audit" asp-action="Win">Win</a>
+
+</nav>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Created</th>
+            <th>Player Name</th>
+            <th>Audit Type</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var audit in Model)
+        {
+            <tr>
+                <td>@audit.CreatedDate</td>
+                <td>@audit.PlayerName</td>
+                <td>@audit.AuditType.Name</td>
+                <td>@audit.Amount?.ToString("c2")</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

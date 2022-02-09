@@ -1,0 +1,97 @@
+﻿@using PressYourLuck.Helpers
+@using Microsoft.AspNetCore.Http;
+@{
+    string action = null;
+    if (Context.Session.Keys.Contains("ActiveTab"))
+    {  action = Context.Session.GetString("ActiveTab"); }
+
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Press Your Luck</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom box-shadow mb-3">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Press Your Luck</a>
+            <button class="navbar-toggler" type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <nav class="collapse navbar-collapse"
+                 id="navbarSupportedContent">
+                <div class="navbar-nav mr-auto">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Audit" asp-action="@(action == null ? "Index" : action)">Audit</a>
+                </div>
+                @{
+                    if (Context.Request.Cookies.ContainsKey("playerName"))
+                    {
+                        <div class="navbar-nav navbar-right">
+
+                            <div class="navbar-text ">
+                                Total Coins: @CoinsHelper.GetTotalCoins(Context).ToString("c2")&nbsp&nbsp
+                            </div>
+                            <a class="btn btn-success" asp-area="" asp-controller="Home" asp-action="Cashout">Cash Out</a>
+                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+                    }
+                }
+            </nav>
+        </nav>
+        
+        @{
+            if (!(Context.Request.Cookies.ContainsKey("playerName")))
+            {
+                <div class="jumbotron">
+                    <h2>@ViewBag.Header</h2>
+                </div>
+
+            }
+            else
+            {
+                <div class="title">
+                    <h3>@ViewBag.Title</h3>
+                </div>
+            }
+        }
+
+    </header>
+    <div>
+        @if (TempData.Keys.Contains("messages"))
+        {
+            <p class="badge-info p-2 rounded">
+                @TempData["messages"]
+            </p>
+        }
+    </div>
+    <div class="container">
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - PressYourLuck
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

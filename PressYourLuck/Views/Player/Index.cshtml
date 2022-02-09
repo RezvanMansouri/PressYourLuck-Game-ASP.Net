@@ -1,0 +1,21 @@
+﻿@model Player 
+@{
+    ViewBag.Header = "Welcome to Press Your Luck!";
+}
+<p>Please enter your name and the number of coins you have to get started.</p>
+<form asp-controller="Player" asp-action="Index" method="post" enctype="application/x-www-form-urlencoded">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="PlayerName">Player Name</label>
+        <input type="text" asp-for="PlayerName" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TotalCoins">Total Coins</label>
+        <input type="text" asp-for="TotalCoins" placeholder="0" class="form-control" />
+    </div>
+
+    <input type="submit" value="Join the Game!" class="btn btn-primary" />
+
+</form>
